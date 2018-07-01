@@ -6,10 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 
 
+
 public class View extends JFrame
 {
-    private final static JPanel cPanel = new ControlPanel();
-    private final static Component canvas = new JPanel()
+    private static ControlPanel cPanel = new ControlPanel();
+    private static Component canvas = new JPanel()
     {
         @Override
         public void paint(Graphics g)
@@ -54,6 +55,7 @@ public class View extends JFrame
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
+
         frame.setVisible(true);
     }
 
@@ -61,4 +63,5 @@ public class View extends JFrame
     {
         SwingUtilities.invokeLater(View::new);
     }
+
 }
