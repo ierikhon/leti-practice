@@ -2,23 +2,30 @@ package Project.View;
 
 import Swing.ControlPanel;
 
+import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.*;
+import org.graphstream.ui.view.*;
+
+
 import javax.swing.*;
 import java.awt.*;
-
-
 
 public class View extends JFrame
 {
     private static ControlPanel cPanel = new ControlPanel();
-    private static Component canvas = new JPanel()
+
+    public static ControlPanel getcPanel()
     {
-        @Override
-        public void paint(Graphics g)
-        {
-            g.setColor(Color.BLUE);
-            g.fillRect(50, 50, 900, 900);
-        }
-    };
+        return cPanel;
+    }
+
+    public static Component getCanvas()
+    {
+        return canvas;
+    }
+
+    private static Component canvas;
+
 
     private View()
     {
@@ -41,12 +48,21 @@ public class View extends JFrame
 
         frame.setJMenuBar(menuBar);
         cPanel.setPreferredSize(new Dimension(500, 1000));
+
+        Graph graph = new SingleGraph("Tutorial", false, true);
+        graph.addEdge("AB", "A", "B");
+        Node a = graph.getNode("A");
+        a.setAttribute("xy", 1, 1);
+        Node b = graph.getNode("B");
+        b.setAttribute("xy", -1, -1);
+        Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+        canvas = viewer.addDefaultView(false);
         canvas.setPreferredSize(new Dimension(1000, 1000));
 
 
         JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
-        rootPanel.setPreferredSize(new Dimension(1500, 1000));
+        rootPanel.setPreferredSize(new Dimension(1500, 940));
         rootPanel.add(cPanel, BorderLayout.EAST);
         rootPanel.add(canvas, BorderLayout.WEST);
 
