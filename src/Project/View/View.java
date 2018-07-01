@@ -15,7 +15,7 @@ public class View extends JFrame
         public void paint(Graphics g)
         {
             g.setColor(Color.BLUE);
-            g.fillRect(0, 0, 1000, 1000);
+            g.fillRect(50, 50, 900, 900);
         }
     };
 
@@ -28,19 +28,17 @@ public class View extends JFrame
 
         JMenuItem openItem = new JMenuItem("Open");
         fileMenu.add(openItem);
-
         fileMenu.addSeparator();
-
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
-
         exitItem.addActionListener(e -> System.exit(0));
 
+        JMenu aboutMenu = new JMenu("Credits");
+
         menuBar.add(fileMenu);
+        menuBar.add(aboutMenu);
 
         frame.setJMenuBar(menuBar);
-
-
         cPanel.setPreferredSize(new Dimension(500, 1000));
         canvas.setPreferredSize(new Dimension(1000, 1000));
 
@@ -53,7 +51,7 @@ public class View extends JFrame
 
         frame.setContentPane(rootPanel);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

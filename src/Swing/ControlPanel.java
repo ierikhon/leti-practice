@@ -21,7 +21,7 @@ public class ControlPanel extends JPanel
         add(createTextEdit("Enter node name here",280, 360, 135, 30));
         add(createButton("Add Node / Edge", 100, 410));
         add(createMessage("Matrix(optional)", 205, 465));
-        add(createTextEdit("Matrix will be here",0, 500, 500, 500));
+        add(createTextEdit("Matrix will be here",50, 550, 400, 400));
     }
 
     private JTextField createTextEdit (String text, int x, int y, int w, int h)
