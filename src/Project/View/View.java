@@ -7,6 +7,7 @@ import org.graphstream.graph.implementations.*;
 import org.graphstream.ui.view.*;
 
 
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -50,11 +51,7 @@ public class View extends JFrame
         cPanel.setPreferredSize(new Dimension(500, 1000));
 
         Graph graph = new SingleGraph("Tutorial", false, true);
-        graph.addEdge("AB", "A", "B");
-        Node a = graph.getNode("A");
-        a.setAttribute("xy", 1, 1);
-        Node b = graph.getNode("B");
-        b.setAttribute("xy", -1, -1);
+
         Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         canvas = viewer.addDefaultView(false);
         canvas.setPreferredSize(new Dimension(1000, 1000));
@@ -71,6 +68,7 @@ public class View extends JFrame
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
         frame.setVisible(true);
     }
