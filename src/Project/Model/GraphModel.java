@@ -1,72 +1,38 @@
 package Project.Model;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
+import java.util.Scanner;
 
-class Network
+public class GraphModel
 {
     private  byte[][] field;
     private  Information[] attended;
-    private  Graph graph = new SingleGraph("Resulting Graph", false, true);
 
     public byte[][] getField()
     {
         return field;
     }
-
     public Information[] getAttended()
     {
         return attended;
     }
 
-    public Graph getGraph()
-    {
-        return graph;
-    }
-
-    public Network(byte[][] data, String[] names)
+    private GraphModel(byte[][] data, String[] names)
     {
         field = data;
         attended = new Information[data[0].length];
         for (int i = 0; i < attended.length; i++)
         {
+            attended[i] = new Information();
             attended[i].setNodeName(names[i]);
             attended[i].setAttended(false);
         }
 
-        graphFromMatrix();
-    }
-
-    private void graphFromMatrix()
-    {
-        int j = 0;
-        for (byte[] current : field)
-        {
-            for (int i = 0; i < current.length; i++)
-                if (current[i] == 1)
-                {
-                    String node1 = attended[i].getNodeName();
-                    String node2 = attended[j].getNodeName();
-                    graph.addEdge(node1 + node2, node1, node2, true);
-                    graph.getNode(node1).setAttribute("xy", 10*Math.cos(2*Math.PI/current.length*i), 10*Math.sin(2*Math.PI/current.length*i));
-
-                }
-                else
-                {
-                    String node = attended[i].getNodeName();
-                    graph.addEdge(node + "0", node, "", true);
-                    graph.getEdge(node + "0").addAttribute("ui.hide");
-                    graph.getNode(node).setAttribute("xy", 10*Math.cos(2*Math.PI/current.length*i), 10*Math.sin(2*Math.PI/current.length*i));
-
-                }
-            j++;
-        }
 
     }
 
     private  int getSize()
     {
-        return field.length;
+        return attended.length;
     }
 
     private byte isEdge(int i, int j)
@@ -130,30 +96,19 @@ class Network
 
     }
 
-}
-
-class Information
-{
-    private boolean wasAttended;
-    private String nodeName = "";
-
-    String getNodeName()
+    public static GraphModel restore (Scanner input)
     {
-        return nodeName;
-    }
+        int nodeAmount = input.nextInt();
+        String[] info = new String[nodeAmount];
+        input.nextLine();
+        for (int i = 0; i < nodeAmount; i++)
+            info[i] = input.nextLine();
 
-    void setAttended(boolean attended)
-    {
-        wasAttended = attended;
-    }
+        byte[][] matrix = new byte[nodeAmount][nodeAmount];
+        for (int i = 0; i < nodeAmount; i++)
+            for (int j = 0; j < nodeAmount; j++)
+                matrix[i][j] = (byte)input.nextInt();
 
-    void setNodeName(String nodeName)
-    {
-        this.nodeName = nodeName;
-    }
-
-    boolean isAttended()
-    {
-        return wasAttended;
+        return new GraphModel(matrix, info);
     }
 }

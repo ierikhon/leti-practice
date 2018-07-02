@@ -1,81 +1,51 @@
 package Project.View;
 
-import Swing.ControlPanel;
+import Project.Model.GraphModel;
+import Project.Model.Information;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
 
-import org.graphstream.graph.*;
-import org.graphstream.graph.implementations.*;
-import org.graphstream.ui.view.*;
-
-
-
-import javax.swing.*;
-import java.awt.*;
-
-public class View extends JFrame
+public class View
 {
-    private static ControlPanel cPanel = new ControlPanel();
-
-    public static ControlPanel getcPanel()
-    {
-        return cPanel;
+    public Graph getGraph() {
+        return graph;
     }
 
-    public static Component getCanvas()
+    private Graph graph = new SingleGraph("Tutorial", false, true);
+
+    public void draw (GraphModel model)
     {
-        return canvas;
+        byte[][] field = model.getField();
+        Information[] attended = model.getAttended();
+
+        int j = 0;
+        for (byte[] current : field)
+        {
+            for (int i = 0; i < current.length; i++)
+                if (current[i] == 1)
+                {
+                    String node1 = attended[i].getNodeName();
+                    String node2 = attended[j].getNodeName();
+                    graph.addEdge(node1 + node2, node1, node2, true);
+                    graph.getNode(node1).setAttribute("xy", 10*Math.cos(2*Math.PI/current.length*i), 10*Math.sin(2*Math.PI/current.length*i));
+
+                }
+                else
+                {
+                    String node = attended[i].getNodeName();
+                    graph.addEdge(node + "0", node, "", true);
+                    graph.getEdge(node + "0").addAttribute("ui.hide");
+                    graph.getNode(node).setAttribute("xy", 10*Math.cos(2*Math.PI/current.length*i), 10*Math.sin(2*Math.PI/current.length*i));
+
+                }
+            j++;
+        }
     }
 
-    private static Component canvas;
 
-
-    private View()
+    public View (GraphModel model)
     {
-        JFrame frame = new JFrame("Test frame");
-
-        JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-
-        JMenuItem openItem = new JMenuItem("Open");
-        fileMenu.add(openItem);
-        fileMenu.addSeparator();
-        JMenuItem exitItem = new JMenuItem("Exit");
-        fileMenu.add(exitItem);
-        exitItem.addActionListener(e -> System.exit(0));
-
-        JMenu aboutMenu = new JMenu("Credits");
-
-        menuBar.add(fileMenu);
-        menuBar.add(aboutMenu);
-
-        frame.setJMenuBar(menuBar);
-        cPanel.setPreferredSize(new Dimension(500, 1000));
-
-        Graph graph = new SingleGraph("Tutorial", false, true);
-
-        Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-        canvas = viewer.addDefaultView(false);
-        canvas.setPreferredSize(new Dimension(1000, 1000));
-
-
-        JPanel rootPanel = new JPanel();
-        rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
-        rootPanel.setPreferredSize(new Dimension(1500, 940));
-        rootPanel.add(cPanel, BorderLayout.EAST);
-        rootPanel.add(canvas, BorderLayout.WEST);
-
-        frame.setContentPane(rootPanel);
-
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args)
-    {
-        SwingUtilities.invokeLater(View::new);
+        draw(model);
     }
 
 }
