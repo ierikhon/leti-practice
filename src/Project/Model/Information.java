@@ -5,7 +5,7 @@ public class Information
     private boolean wasAttended;
     private String nodeName;
 
-    public Information()
+    Information()
     {
         wasAttended = false;
         nodeName = "";
