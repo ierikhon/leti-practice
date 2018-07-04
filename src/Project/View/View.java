@@ -2,18 +2,27 @@ package Project.View;
 
 import Project.Model.GraphModel;
 import Project.Model.Information;
+import Swing.Launcher;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
+
+
+import java.awt.*;
+
 public class View
 {
+    private Graph graph = new SingleGraph("Tutorial", false, true);
+    private Launcher canvas;
+
+    public Component getCanvas() {
+        return canvas;
+    }
     public Graph getGraph() {
         return graph;
     }
 
-    private Graph graph = new SingleGraph("Tutorial", false, true);
-
-    public void draw (GraphModel model)
+    public void recompileGraph(GraphModel model)
     {
         byte[][] field = model.getField();
         Information[] attended = model.getAttended();
@@ -49,13 +58,13 @@ public class View
                 "        stroke-color: black;" +
                 "        stroke-width: 5px;" +
                 "    }");
-
     }
 
 
-    public View (GraphModel model)
+    public View (GraphModel model, Launcher canvas)
     {
-        draw(model);
+        this.canvas = canvas;
+        recompileGraph(model);
     }
 
 }

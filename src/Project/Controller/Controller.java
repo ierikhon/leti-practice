@@ -26,6 +26,6 @@ public class Controller
 
     public void viewUpdated()
     {
-        view.draw(model);
+        view.recompileGraph(model);
     }
 }

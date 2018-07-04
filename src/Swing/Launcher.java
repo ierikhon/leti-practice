@@ -1,29 +1,37 @@
 package Swing;
 
+
 import Project.Controller.Controller;
 import Project.Model.GraphModel;
 import Project.View.View;
-import org.graphstream.graph.*;
-import org.graphstream.graph.implementations.*;
+
 import org.graphstream.ui.view.*;
 
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Launcher extends JFrame
 {
     private static ControlPanel cPanel = new ControlPanel();
-    private static Component canvas;
+    private static Component canvas = new JPanel();
+    private static JPanel rootPanel = new JPanel();
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Launcher().setVisible(true));
+        SwingUtilities.invokeLater(() -> {
+            try {
+                new Launcher().setVisible(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
-    private Launcher()
-    {
+    private Launcher() throws IOException {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -43,15 +51,8 @@ public class Launcher extends JFrame
         setJMenuBar(menuBar);
         cPanel.setPreferredSize(new Dimension(500, 1000));
 
-        Graph graph = new SingleGraph("Tutorial", false, true);
-
-        Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-        canvas = viewer.addDefaultView(false);
-        canvas.setPreferredSize(new Dimension(1000, 1000));
-
         initListeners();
 
-        JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
         rootPanel.setPreferredSize(new Dimension(1500, 940));
         rootPanel.add(cPanel, BorderLayout.EAST);
@@ -63,19 +64,22 @@ public class Launcher extends JFrame
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
+
+
     }
 
-    private void initListeners()
-    {
-        Scanner scanner = new Scanner(System.in);
-        GraphModel model = GraphModel.restore(scanner);
 
-        View view = new View(model);
-        Graph graph = view.getGraph();
-        Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+    private void initListeners() throws IOException {
+        Scanner scanner = new Scanner(Paths.get("InputData.dat"));
+        GraphModel model = GraphModel.restore(scanner);
+        View view = new View(model, this);
+
+        Viewer viewer = new Viewer(view.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         canvas = viewer.addDefaultView(false);
         canvas.setPreferredSize(new Dimension(1000, 1000));
 
         Controller controller = new Controller (model, view);
+
     }
+
 }

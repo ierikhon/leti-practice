@@ -54,7 +54,7 @@ public class ControlPanel extends JPanel
 
     public JButton getButAddNE(){ return butAddNE; }
 
-    public ControlPanel()
+    ControlPanel()
     {
         super(null);
 
