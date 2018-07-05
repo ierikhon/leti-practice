@@ -63,7 +63,7 @@ public class GraphModel
         return false;
     }
 
-    void writeMatrix()
+    public void writeMatrix()
     {
         for (int i = 0; i < getSize(); i++)
         {

@@ -1,28 +1,32 @@
 package Project.View;
 
+
 import Project.Model.GraphModel;
 import Project.Model.Information;
-import Swing.Launcher;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
-
-
+import org.graphstream.ui.view.Viewer;
 
 import java.awt.*;
 
 public class View
 {
-    private Graph graph = new SingleGraph("Tutorial", false, true);
-    private Launcher canvas;
+    private Graph graph = new SingleGraph("Graph", false, true);
+    private Component canvas;
 
-    public Component getCanvas() {
-        return canvas;
-    }
     public Graph getGraph() {
         return graph;
     }
+    public Component getCanvas() {
+        return canvas;
+    }
 
-    public void recompileGraph(GraphModel model)
+    public View(Component canvas)
+    {
+        this.canvas = canvas;
+    }
+
+    public void updateGraph(GraphModel model)
     {
         byte[][] field = model.getField();
         Information[] attended = model.getAttended();
@@ -58,13 +62,6 @@ public class View
                 "        stroke-color: black;" +
                 "        stroke-width: 5px;" +
                 "    }");
+        canvas = (new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD)).addDefaultView(false);
     }
-
-
-    public View (GraphModel model, Launcher canvas)
-    {
-        this.canvas = canvas;
-        recompileGraph(model);
-    }
-
 }

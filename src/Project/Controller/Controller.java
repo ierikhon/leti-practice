@@ -3,29 +3,41 @@ package Project.Controller;
 import Project.Model.GraphModel;
 import Project.View.View;
 
+
 public class Controller
 {
-    private final GraphModel model;
     private final View view;
-
-    public GraphModel getModel() {
-        return model;
-    }
+    private final GraphModel model;
+    private boolean wasUpd = false;
 
     public View getView() {
         return view;
     }
 
-    public Controller(GraphModel model, View view)
-    {
-        this.model = model;
-        this.view = view;
+    public GraphModel getModel() {
+        return model;
     }
 
-
-
-    public void viewUpdated()
+    public Controller(View view, GraphModel model)
     {
-        view.recompileGraph(model);
+        this.view = view;
+        this.model = model;
+    }
+
+    public void updated()
+    {
+        view.updateGraph(model);
+        wasUpd = true;
+    }
+
+    public boolean wasUpdated()
+    {
+        if (!wasUpd)
+            return false;
+        else
+        {
+            wasUpd = false;
+            return true;
+        }
     }
 }

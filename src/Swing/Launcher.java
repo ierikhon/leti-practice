@@ -5,10 +5,6 @@ import Project.Controller.Controller;
 import Project.Model.GraphModel;
 import Project.View.View;
 
-import org.graphstream.ui.view.*;
-
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -21,18 +17,19 @@ public class Launcher extends JFrame
     private static Component canvas = new JPanel();
     private static JPanel rootPanel = new JPanel();
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SwingUtilities.invokeLater(() -> {
             try {
-                new Launcher().setVisible(true);
+                new Launcher();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private Launcher() throws IOException {
-
+    private Launcher () throws IOException
+    {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
 
@@ -47,11 +44,13 @@ public class Launcher extends JFrame
 
         menuBar.add(fileMenu);
         menuBar.add(aboutMenu);
-
         setJMenuBar(menuBar);
-        cPanel.setPreferredSize(new Dimension(500, 1000));
 
-        initListeners();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        cPanel.setPreferredSize(getCPanelActualSize(screenSize));
+        canvas.setPreferredSize(getCanvasActualSize(screenSize));
+
 
         rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
         rootPanel.setPreferredSize(new Dimension(1500, 940));
@@ -62,24 +61,54 @@ public class Launcher extends JFrame
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
+
+        initListeners();
+    }
+
+
+    private Dimension getCanvasActualSize(Dimension screenSize)
+    {
+        Dimension actualSize = new Dimension();
+
+        actualSize.height = screenSize.height < 1000 ? screenSize.height : 1000;
+        actualSize.width = screenSize.width < 1000 ? screenSize.height : 1000;
+
+        return actualSize;
+    }
+
+
+    private Dimension getCPanelActualSize(Dimension screenSize)
+    {
+        Dimension actualSize = new Dimension();
+
+        actualSize.height = screenSize.height < 1000 ? screenSize.height : 1000;
+        actualSize.width = screenSize.width < 500 ? screenSize.height : 500;
+
+        return actualSize;
+    }
+
+    private void initListeners() throws IOException
+    {
+        setVisible(true);
         setLocationRelativeTo(null);
-        setResizable(false);
 
+        View view = new View(canvas);
+        GraphModel model = GraphModel.restore(new Scanner(Paths.get("Default.dat")));
+        Controller controller = new Controller(view, model);
+        controller.updated();
 
+        Timer timer = new Timer(100, e -> {
+            if (controller.wasUpdated())
+            {
+                rootPanel.remove(canvas);
+                canvas = controller.getView().getCanvas();
+                canvas.setPreferredSize(getCanvasActualSize(Toolkit.getDefaultToolkit().getScreenSize()));
+                rootPanel.add(canvas, BorderLayout.WEST);
+                rootPanel.revalidate();
+            }
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
-
-
-    private void initListeners() throws IOException {
-        Scanner scanner = new Scanner(Paths.get("InputData.dat"));
-        GraphModel model = GraphModel.restore(scanner);
-        View view = new View(model, this);
-
-        Viewer viewer = new Viewer(view.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-        canvas = viewer.addDefaultView(false);
-        canvas.setPreferredSize(new Dimension(1000, 1000));
-
-        Controller controller = new Controller (model, view);
-
-    }
-
 }
+

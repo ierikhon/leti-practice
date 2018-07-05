@@ -10,49 +10,30 @@ public class ControlPanel extends JPanel
     private final JCheckBox sbs = createCheckbox ("Step-by-step Solution", 180, 175);
     private final JButton butBack = createButton("Step Back", 0, 0);
     private final JButton butForward = createButton("Step Forward", 0, 0);
-    private final JTextField node1name = createTextEdit ("Enter node name here",75, 360, 135, 30);
-    private final JTextField node2name = createTextEdit("Enter node name here",280, 360, 135, 30);
-    private final JButton butAddNE = createButton("Add Node / Edge", 100, 410);
     private final JTextField matrix = createTextEdit("Matrix will be here",50, 520, 400, 400);
 
     public JCheckBox getSbs()
     {
         return sbs;
     }
-
-    public JTextField getNode1name()
-    {
-        return node1name;
-    }
-
-    public JTextField getNode2name()
-    {
-        return node2name;
-    }
-
     public JTextField getMatrix()
     {
         return matrix;
     }
-
     public JButton getButStart()
     {
         return butStart;
     }
-
     public JButton getButStop()
     {
         return butStop;
     }
-
     public JButton getButBack()
     {
         return butBack;
     }
-
     public JButton getButForward(){ return butForward; }
 
-    public JButton getButAddNE(){ return butAddNE; }
 
     ControlPanel()
     {
@@ -68,11 +49,7 @@ public class ControlPanel extends JPanel
         add(butStop);
         add(sbs);
         add(butBack);
-        add(butBack);
-        add(createMessage("Graph edit", 215, 315));
-        add(node1name);
-        add(node2name);
-        add(butAddNE);
+        add(butForward);
         add(createMessage("Matrix(optional)", 205, 480));
         add(matrix);
 
