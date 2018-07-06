@@ -14,9 +14,6 @@ public class View
     private Graph graph = new SingleGraph("Graph", false, true);
     private Component canvas;
 
-    public Graph getGraph() {
-        return graph;
-    }
     public Component getCanvas() {
         return canvas;
     }
@@ -35,7 +32,7 @@ public class View
         for (byte[] current : field)
         {
             for (int i = 0; i < current.length; i++)
-                if (current[i] == 1)
+                if ((current[i] == 1))
                 {
                     String node2 = attended[i].getNodeName();
                     String node1 = attended[j].getNodeName();

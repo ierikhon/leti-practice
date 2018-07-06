@@ -2,6 +2,7 @@ package Swing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class ControlPanel extends JPanel
 {
@@ -10,13 +11,13 @@ public class ControlPanel extends JPanel
     private final JCheckBox sbs = createCheckbox ("Step-by-step Solution", 180, 175);
     private final JButton butBack = createButton("Step Back", 0, 0);
     private final JButton butForward = createButton("Step Forward", 0, 0);
-    private final JTextField matrix = createTextEdit("Matrix will be here",50, 520, 400, 400);
+    private final JTextArea matrix = createTextEdit(50, 520, 400, 400);
 
     public JCheckBox getSbs()
     {
         return sbs;
     }
-    public JTextField getMatrix()
+    JTextArea getMatrix()
     {
         return matrix;
     }
@@ -41,6 +42,7 @@ public class ControlPanel extends JPanel
 
         butBack.setBounds(50, 240, 150, 50);
         butForward.setBounds(300, 240,150, 50);
+        matrix.setEditable(false);
 
         JLabel temp = createMessage("Control Panel", 200, 5);
         temp.setFont(new Font(temp.getFont().getName(), Font.ITALIC, 20));
@@ -56,9 +58,9 @@ public class ControlPanel extends JPanel
         setBorder(BorderFactory.createLineBorder(Color.GREEN, 8));
     }
 
-    private JTextField createTextEdit (String text, int x, int y, int w, int h)
+    private JTextArea createTextEdit (int x, int y, int w, int h)
     {
-        JTextField ta = new Placeholder(text);
+        JTextArea ta = new JTextArea();
         ta.setBounds(x, y, w, h);
         ta.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         return ta;
@@ -88,5 +90,10 @@ public class ControlPanel extends JPanel
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         return button;
+    }
+
+    void addStartButtonListener(ActionListener listener)
+    {
+        butStart.addActionListener(listener);
     }
 }

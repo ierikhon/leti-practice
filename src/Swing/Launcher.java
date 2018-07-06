@@ -93,9 +93,11 @@ public class Launcher extends JFrame
         setLocationRelativeTo(null);
 
         View view = new View(canvas);
-        GraphModel model = GraphModel.restore(new Scanner(Paths.get("Default.dat")));
+        GraphModel model = GraphModel.restore(new Scanner(Paths.get("InputData.dat")));
         Controller controller = new Controller(view, model);
         controller.updated();
+
+        cPanel.addStartButtonListener(e -> controller.start());
 
         Timer timer = new Timer(100, e -> {
             if (controller.wasUpdated())
@@ -105,6 +107,8 @@ public class Launcher extends JFrame
                 canvas.setPreferredSize(getCanvasActualSize(Toolkit.getDefaultToolkit().getScreenSize()));
                 rootPanel.add(canvas, BorderLayout.WEST);
                 rootPanel.revalidate();
+
+                cPanel.getMatrix().setText(controller.matrixUpdated());
             }
         });
         timer.setRepeats(true);

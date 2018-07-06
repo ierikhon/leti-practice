@@ -14,10 +14,6 @@ public class Controller
         return view;
     }
 
-    public GraphModel getModel() {
-        return model;
-    }
-
     public Controller(View view, GraphModel model)
     {
         this.view = view;
@@ -39,5 +35,16 @@ public class Controller
             wasUpd = false;
             return true;
         }
+    }
+
+    public String matrixUpdated()
+    {
+        return model.writeMatrix();
+    }
+
+    public void start()
+    {
+        model.transite();
+        updated();
     }
 }

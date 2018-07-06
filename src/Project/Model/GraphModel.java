@@ -63,19 +63,7 @@ public class GraphModel
         return false;
     }
 
-    public void writeMatrix()
-    {
-        for (int i = 0; i < getSize(); i++)
-        {
-            for (int j = 0; j < getSize(); j++)
-            {
-                System.out.print(field[i][j]+" ");
-            }
-            System.out.println();
-        }
-    }
-
-    void Transite()
+    public void transite()
     {
         int i, j, k;
         while (this.hasUnattended())
@@ -94,6 +82,18 @@ public class GraphModel
                 this.check(j);
             }
 
+    }
+
+    public String writeMatrix()
+    {
+        StringBuilder result = new StringBuilder();
+        for (byte[] current : field)
+        {
+            for (byte edge : current)
+                result.append(edge).append(" ");
+            result.append("\n");
+        }
+        return result.toString();
     }
 
     public static GraphModel restore (Scanner input)
