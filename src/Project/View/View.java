@@ -32,7 +32,7 @@ public class View
         for (byte[] current : field)
         {
             for (int i = 0; i < current.length; i++)
-                if ((current[i] == 1))
+                if ((current[i] == 1)||(current[i] == 2))
                 {
                     String node2 = attended[i].getNodeName();
                     String node1 = attended[j].getNodeName();

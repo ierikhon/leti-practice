@@ -42,7 +42,7 @@ public class GraphModel
 
     private void addEdge(int i, int j)
     {
-        field[i][j] = 1;
+        field[i][j] = 2;
     }
 
     private void check(int i)
@@ -73,7 +73,7 @@ public class GraphModel
                     if (j != i)
                         for (k = 0; k < getSize(); k++)
                             if (j != k)
-                                if ((this.isEdge(i, j) == 1)&&(this.isEdge(j, k) == 1)&&(this.isEdge(i, k) == 0))
+                                if ((this.isEdge(i, j) != 0)&&(this.isEdge(j, k) != 0)&&(this.isEdge(i, k) == 0))
                                 {
                                     this.addEdge(i, k);
                                     this.uncheck(i);
