@@ -32,23 +32,20 @@ public class Launcher extends JFrame
 
         JMenuItem openItem = new JMenuItem("Open");
         fileMenu.add(openItem);
+        JMenuItem helpItem = new JMenuItem("Help");
+        fileMenu.add(helpItem);
         fileMenu.addSeparator();
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
         exitItem.addActionListener(e -> System.exit(0));
 
-        JMenu aboutMenu = new JMenu("Credits");
-
         menuBar.add(fileMenu);
-        menuBar.add(aboutMenu);
         setJMenuBar(menuBar);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         cPanel.setPreferredSize(getCPanelActualSize(screenSize));
         canvas.setPreferredSize(getCanvasActualSize(screenSize));
-
-
 
         rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
         rootPanel.setPreferredSize(new Dimension(1500, 940));
@@ -62,6 +59,8 @@ public class Launcher extends JFrame
 
         setVisible(true);
         setLocationRelativeTo(null);
+
+        helpItem.addActionListener(e -> showHelp());
 
         openItem.addActionListener(e-> {
             try {
@@ -138,6 +137,12 @@ public class Launcher extends JFrame
         }
         file = chooser.getSelectedFile();
         initListeners();
+    }
+
+    private void showHelp()
+    {
+        String message = "You are using program for graph Transitive closure. For more information see Readme.txt in program's folder";
+        JOptionPane.showConfirmDialog(this, message, "Help", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 }
 
