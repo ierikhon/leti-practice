@@ -89,6 +89,7 @@ public class GraphModel
         int i = 0;
         while (this.hasUnattended()){
             stepFwd(i);
+            //Waiter for step-to-step
         }
     }
 
@@ -129,10 +130,15 @@ public class GraphModel
         enclose(steps.get(stepNum + 1));
     }
 
+    void stepBack(int stepNum){
+        reopen(steps.get(stepNum));
+        steps.remove(stepNum);
+    }
+
     void backToOriginal(int stepCurrent){
         if (steps.get(stepCurrent) != null) {
-            this.reopen(steps.get(stepCurrent));
-            steps.remove(stepCurrent);
+            stepBack(stepCurrent);
+            //Waiter for step-to-step
             backToOriginal(stepCurrent - 1);
         }
 

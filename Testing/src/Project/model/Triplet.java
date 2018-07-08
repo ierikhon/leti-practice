@@ -1,15 +1,15 @@
 package Project.model;
 
-public class Triplet {
+class Triplet {
 
-    static int start;
-    static int mid;
-    static int end;
+    int start;
+    int mid;
+    int end;
 
     Triplet(int a, int b, int c){
-        Triplet.start = a;
-        Triplet.mid = b;
-        Triplet.end = c;
+        start = a;
+        mid = b;
+        end = c;
     }
 
 

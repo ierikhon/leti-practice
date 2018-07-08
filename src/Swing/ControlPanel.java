@@ -6,12 +6,12 @@ import java.awt.event.ActionListener;
 
 public class ControlPanel extends JPanel
 {
-    private final JButton butStart = createButton ("Start Algorithm", 100, 50);
-    private final JButton butStop = createButton ("Stop and Reset Algorithm", 100, 120);
-    private final JCheckBox sbs = createCheckbox ("Step-by-step Solution", 180, 175);
-    private final JButton butBack = createButton("Step Back", 0, 0);
-    private final JButton butForward = createButton("Step Forward", 0, 0);
-    private final JTextArea matrix = createTextEdit(50, 520, 400, 400);
+    private final JButton butStart = createButton ("Start Algorithm");
+    private final JButton butStop = createButton ("Stop and Reset Algorithm");
+    private final JCheckBox sbs = createCheckbox ("Step-by-step");
+    private final JButton butBack = createButton("Step Back");
+    private final JButton butForward = createButton("Step Forward");
+    private final JTextArea matrix = createTextEdit();
 
     public JCheckBox getSbs()
     {
@@ -39,56 +39,54 @@ public class ControlPanel extends JPanel
     ControlPanel()
     {
         super(null);
-
-        butBack.setBounds(50, 240, 150, 50);
-        butForward.setBounds(300, 240,150, 50);
         matrix.setEditable(false);
+        setLayout(new GridBagLayout());
 
-        JLabel temp = createMessage("Control Panel", 200, 5);
+        JLabel temp = createMessage("Control Panel");
         temp.setFont(new Font(temp.getFont().getName(), Font.ITALIC, 20));
-        add(temp);
-        add(butStart);
-        add(butStop);
-        add(sbs);
-        add(butBack);
-        add(butForward);
-        add(createMessage("Matrix(optional)", 205, 480));
-        add(matrix);
-
+        add(temp, new GridBagConstraints(0, 0, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+        add(butStart, new GridBagConstraints(0, 1, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        add(butStop, new GridBagConstraints(0, 2, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        add(sbs, new GridBagConstraints(0, 3, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        add(butBack, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        add(butForward, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        add(createMessage("Matrix"), new GridBagConstraints(0, 5, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+        add(matrix, new GridBagConstraints(0, 6, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
         setBorder(BorderFactory.createLineBorder(Color.GREEN, 8));
+
     }
 
-    private JTextArea createTextEdit (int x, int y, int w, int h)
+    private JTextArea createTextEdit ()
     {
         JTextArea ta = new JTextArea();
-        ta.setBounds(x, y, w, h);
         ta.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        ta.setPreferredSize(new Dimension(250, 250));
         return ta;
     }
 
-    private JLabel createMessage (String text, int x, int y)
+    private JLabel createMessage (String text)
     {
         JLabel te = new JLabel(text);
-        te.setBounds(x, y, 300, 50);
         te.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        te.setPreferredSize(new Dimension(125, 25));
         return te;
     }
 
-    private JCheckBox createCheckbox (String text, int x, int y)
+    private JCheckBox createCheckbox (String text)
     {
         JCheckBox checkBox = new JCheckBox(text);
-        checkBox.setBounds(x, y, 300, 50);
         checkBox.setFocusPainted(false);
         checkBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        checkBox.setPreferredSize(new Dimension(125, 25));
         return checkBox;
     }
 
-    private JButton createButton (String text, int x, int y)
+    private JButton createButton (String text)
     {
         JButton button = new JButton(text);
-        button.setBounds(x, y, 300, 50);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        button.setPreferredSize(new Dimension(125, 25));
         return button;
     }
 
