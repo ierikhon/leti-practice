@@ -47,4 +47,22 @@ public class Controller
         model.transite();
         updated();
     }
+
+    public void stop()
+    {
+        model.backToOriginal(model.stepsNumber()-1);
+        updated();
+    }
+
+    public void forward()
+    {
+        model.stepFwd(model.stepsNumber());
+        updated();
+    }
+
+    public void back()
+    {
+        model.stepBack(model.stepsNumber());
+        updated();
+    }
 }

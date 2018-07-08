@@ -63,6 +63,7 @@ public class Launcher extends JFrame
         pack();
 
         initListeners();
+
     }
 
 
@@ -98,6 +99,9 @@ public class Launcher extends JFrame
         controller.updated();
 
         cPanel.addStartButtonListener(e -> controller.start());
+        cPanel.addStopButtonListener(e -> controller.stop());
+        cPanel.addForwardButtonListener(e -> controller.forward());
+        cPanel.addBackButtonListener(e -> controller.back());
 
         Timer timer = new Timer(100, e -> {
             if (controller.wasUpdated())

@@ -4,37 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ControlPanel extends JPanel
+class ControlPanel extends JPanel
 {
     private final JButton butStart = createButton ("Start Algorithm");
     private final JButton butStop = createButton ("Stop and Reset Algorithm");
-    private final JCheckBox sbs = createCheckbox ("Step-by-step");
     private final JButton butBack = createButton("Step Back");
     private final JButton butForward = createButton("Step Forward");
     private final JTextArea matrix = createTextEdit();
 
-    public JCheckBox getSbs()
-    {
-        return sbs;
-    }
     JTextArea getMatrix()
     {
         return matrix;
     }
-    public JButton getButStart()
-    {
-        return butStart;
-    }
-    public JButton getButStop()
-    {
-        return butStop;
-    }
-    public JButton getButBack()
-    {
-        return butBack;
-    }
-    public JButton getButForward(){ return butForward; }
-
 
     ControlPanel()
     {
@@ -47,7 +28,6 @@ public class ControlPanel extends JPanel
         add(temp, new GridBagConstraints(0, 0, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
         add(butStart, new GridBagConstraints(0, 1, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         add(butStop, new GridBagConstraints(0, 2, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
-        add(sbs, new GridBagConstraints(0, 3, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         add(butBack, new GridBagConstraints(0, 4, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         add(butForward, new GridBagConstraints(1, 4, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         add(createMessage("Matrix"), new GridBagConstraints(0, 5, 2, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -72,15 +52,6 @@ public class ControlPanel extends JPanel
         return te;
     }
 
-    private JCheckBox createCheckbox (String text)
-    {
-        JCheckBox checkBox = new JCheckBox(text);
-        checkBox.setFocusPainted(false);
-        checkBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        checkBox.setPreferredSize(new Dimension(125, 25));
-        return checkBox;
-    }
-
     private JButton createButton (String text)
     {
         JButton button = new JButton(text);
@@ -94,4 +65,7 @@ public class ControlPanel extends JPanel
     {
         butStart.addActionListener(listener);
     }
+    void addStopButtonListener(ActionListener listener) {butStop.addActionListener(listener);}
+    void addForwardButtonListener(ActionListener listener) {butForward.addActionListener(listener);}
+    void addBackButtonListener(ActionListener listener) {butBack.addActionListener(listener);}
 }
