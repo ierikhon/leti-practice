@@ -125,11 +125,13 @@ public class GraphModel
     }
 
     public void stepFwd(int stepNum){
+        steps.add(0, null);
         steps.add(stepNum + 1, searchNext(steps.get(stepNum)));
         enclose(steps.get(stepNum + 1));
     }
 
     public void stepBack(int stepNum){
+        steps.add(0, null);
         reopen(steps.get(stepNum));
         steps.remove(stepNum);
     }
