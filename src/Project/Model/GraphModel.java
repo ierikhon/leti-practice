@@ -77,7 +77,9 @@ public class GraphModel
         for (byte[] current : field)
         {
             for (byte edge : current)
-                result.append(edge).append(" ");
+                if (edge != 0)
+                    result.append("1 ");
+                else result.append("0 ");
             result.append("\n");
         }
         return result.toString();
@@ -126,22 +128,17 @@ public class GraphModel
 
     public void stepFwd(int stepNum){
         steps.add(0, null);
-        steps.add(stepNum + 1, searchNext(steps.get(stepNum)));
-        enclose(steps.get(stepNum + 1));
+        if (searchNext(steps.get(stepNum)) != null)
+        {
+            steps.add(stepNum + 1, searchNext(steps.get(stepNum)));
+            enclose(steps.get(stepNum + 1));
+        }
     }
 
     public void stepBack(int stepNum){
         steps.add(0, null);
         reopen(steps.get(stepNum));
         steps.remove(stepNum);
-    }
-
-    public void backToOriginal(int stepCurrent){
-        if (steps.get(stepCurrent) != null) {
-            stepBack(stepCurrent);
-            backToOriginal(stepCurrent - 1);
-        }
-
     }
 
     public static GraphModel restore(Scanner input)

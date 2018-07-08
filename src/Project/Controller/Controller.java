@@ -3,11 +3,15 @@ package Project.Controller;
 import Project.Model.GraphModel;
 import Project.View.View;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
 
 public class Controller
 {
     private final View view;
-    private final GraphModel model;
+    private  GraphModel model;
     private boolean wasUpd = false;
 
     public View getView() {
@@ -48,9 +52,13 @@ public class Controller
         updated();
     }
 
-    public void stop()
+    public void stop(String name)
     {
-        model.backToOriginal(model.stepsNumber()-1);
+        try {
+            model = GraphModel.restore(new Scanner(Paths.get(name)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         updated();
     }
 
@@ -62,6 +70,7 @@ public class Controller
 
     public void back()
     {
+        model.stepBack(model.stepsNumber());
         model.stepBack(model.stepsNumber());
         updated();
     }

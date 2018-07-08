@@ -11,7 +11,6 @@ import java.awt.*;
 
 public class View
 {
-    private Graph graph = new SingleGraph("Graph", false, true);
     private Component canvas;
 
     public Component getCanvas() {
@@ -27,6 +26,7 @@ public class View
     {
         byte[][] field = model.getField();
         Information[] attended = model.getAttended();
+        Graph graph = new SingleGraph("Graph", false, true);
 
         int j = 0;
         for (byte[] current : field)
