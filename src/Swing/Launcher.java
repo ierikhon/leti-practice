@@ -6,7 +6,9 @@ import Project.Model.GraphModel;
 import Project.View.View;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -16,41 +18,34 @@ public class Launcher extends JFrame
     private static ControlPanel cPanel = new ControlPanel();
     private static Component canvas = new JPanel();
     private static JPanel rootPanel = new JPanel();
+    private static File file;
 
     public static void main(String[] args)
     {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new Launcher();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        SwingUtilities.invokeLater(Launcher::new);
     }
 
-    private Launcher () throws IOException
+    private Launcher ()
     {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
 
         JMenuItem openItem = new JMenuItem("Open");
         fileMenu.add(openItem);
+        JMenuItem helpItem = new JMenuItem("Help");
+        fileMenu.add(helpItem);
         fileMenu.addSeparator();
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
         exitItem.addActionListener(e -> System.exit(0));
 
-        JMenu aboutMenu = new JMenu("Credits");
-
         menuBar.add(fileMenu);
-        menuBar.add(aboutMenu);
         setJMenuBar(menuBar);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         cPanel.setPreferredSize(getCPanelActualSize(screenSize));
         canvas.setPreferredSize(getCanvasActualSize(screenSize));
-
 
         rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
         rootPanel.setPreferredSize(new Dimension(1500, 940));
@@ -62,7 +57,18 @@ public class Launcher extends JFrame
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
 
-        initListeners();
+        setVisible(true);
+        setLocationRelativeTo(null);
+
+        helpItem.addActionListener(e -> showHelp());
+
+        openItem.addActionListener(e-> {
+            try {
+                fromfile();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
 
@@ -89,15 +95,16 @@ public class Launcher extends JFrame
 
     private void initListeners() throws IOException
     {
-        setVisible(true);
-        setLocationRelativeTo(null);
 
         View view = new View(canvas);
-        GraphModel model = GraphModel.restore(new Scanner(Paths.get("InputData.dat")));
+        GraphModel model = GraphModel.restore(new Scanner(Paths.get(file.getName())));
         Controller controller = new Controller(view, model);
         controller.updated();
 
         cPanel.addStartButtonListener(e -> controller.start());
+        cPanel.addStopButtonListener(e -> controller.stop(file.getName()));
+        cPanel.addForwardButtonListener(e -> controller.forward());
+        cPanel.addBackButtonListener(e -> controller.back());
 
         Timer timer = new Timer(100, e -> {
             if (controller.wasUpdated())
@@ -107,12 +114,35 @@ public class Launcher extends JFrame
                 canvas.setPreferredSize(getCanvasActualSize(Toolkit.getDefaultToolkit().getScreenSize()));
                 rootPanel.add(canvas, BorderLayout.WEST);
                 rootPanel.revalidate();
+                canvas.repaint();
 
                 cPanel.getMatrix().setText(controller.matrixUpdated());
             }
         });
         timer.setRepeats(true);
         timer.start();
+    }
+
+    private void fromfile() throws IOException
+    {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Graph data", "dat");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(this);
+        if (returnVal != JFileChooser.APPROVE_OPTION)
+        {
+            return;
+        }
+        file = chooser.getSelectedFile();
+        initListeners();
+    }
+
+    private void showHelp()
+    {
+        String message = "You are using program for graph Transitive closure. For more information see Readme.txt in program's folder";
+        JOptionPane.showConfirmDialog(this, message, "Help", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 }
 

@@ -6,10 +6,10 @@ public class Information
     private String nodeName;
 
     Information()
-    {
-        wasAttended = false;
-        nodeName = "";
-    }
+{
+    wasAttended = false;
+    nodeName = "";
+}
 
     public String getNodeName()
     {
@@ -30,4 +30,5 @@ public class Information
     {
         return wasAttended;
     }
+
 }
